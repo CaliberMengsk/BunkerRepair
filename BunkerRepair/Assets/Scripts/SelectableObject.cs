@@ -9,6 +9,7 @@ public class SelectableObject : MonoBehaviour
 	public float health = 100, output = 100, decayRate = 1f;
 	public AnimationCurve outputCurve;
 	public static SelectableObject instance;
+	public RepairStrength expertieseNeeded;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,4 +22,8 @@ public class SelectableObject : MonoBehaviour
 		health -= decayRate * Time.deltaTime;
 		output = outputCurve.Evaluate(health/100)*100;
     }
+	private void LateUpdate()
+	{
+		health = Mathf.Clamp(health, 0, 100);
+	}
 }

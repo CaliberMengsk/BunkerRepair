@@ -12,6 +12,8 @@ public class SelectObject : MonoBehaviour
 
 	public GameObject selectableObjectPanel,repairPanel;
 	public Text selectableObjectTitle, selectableObjectHealth, selectableObjectOutput;
+
+	public ColorBlock repairingColors, notRepairingColors;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +67,7 @@ public class SelectObject : MonoBehaviour
 					if (hit.collider.tag == "Selectable")
 					{
 						currentSelection = hit.collider.gameObject;
+						UpdatePersonButtons();
 						UpdateSelectedPanel();
 						foreach (MeshRenderer mr in currentSelection.GetComponentsInChildren<MeshRenderer>())
 						{
@@ -95,7 +98,7 @@ public class SelectObject : MonoBehaviour
 		}
     }
 
-	void UpdateSelectedPanel()
+	public void UpdateSelectedPanel()
 	{
 		if(currentSelection != null)
 		{
@@ -121,6 +124,21 @@ public class SelectObject : MonoBehaviour
 		else
 		{
 			selectableObjectPanel.SetActive(false);
+		}
+	}
+
+	public void UpdatePersonButtons()
+	{
+		foreach (Person p in FindObjectsOfType<Person>())
+		{
+			if (p.repairingObject == currentSelection)
+			{
+				p.repairButton.colors = repairingColors;
+			}
+			else
+			{
+				p.repairButton.colors = notRepairingColors;
+			}
 		}
 	}
 }

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class GameController : MonoBehaviour
 {
 	public GameObject repairPanel, repairButtonPrefab, personPrefab;
 	public List<Button> repairButtons;
 	public List<Person> people = new List<Person>();
-	public Texture foodIcon, waterIcon, scienceIcon, engeneeringIcon;
+	public Sprite foodIcon, waterIcon, scienceIcon, engeneeringIcon;
 
 	public static GameController instance;
     // Start is called before the first frame update
@@ -52,6 +53,9 @@ public class GameController : MonoBehaviour
 	{
 		Image repairImage = personToDo.repairButton.gameObject.transform.Find("CurrentlyRepairing").GetComponent<Image>();
 		repairImage.sprite = SelectObject.instance.currentSelection.GetComponent<SelectableObject>().icon;
+		personToDo.repairingObject = SelectObject.instance.currentSelection;
+		EventSystem.current.SetSelectedGameObject(null);
+		SelectObject.instance.UpdatePersonButtons();
 	}
 }
 public enum RepairType

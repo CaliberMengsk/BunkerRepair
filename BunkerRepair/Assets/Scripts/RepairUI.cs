@@ -43,7 +43,7 @@ public class RepairUI : MonoBehaviour
 	public void ShowPanel(bool state)
 	{
 		showPanel = state;
-		gameObject.SetActive(true);
+		gameObject.SetActive(state);
 	}
 
 }

@@ -15,25 +15,56 @@ public class Person : MonoBehaviour
     {
 		GenerateStats();
 		GameController.instance.people.Add(this);
+		InvokeRepeating("Repair", 1f, 1f);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Repair()
+	{
+		if (repairingObject != null)
+		{
+			SelectableObject so = repairingObject.GetComponent<SelectableObject>();
+			if (proficiency == so.expertieseNeeded)
+			{
+				if (proficiency == RepairStrength.Charm)
+				{
+					so.health += charm;
+				}
+				if(proficiency == RepairStrength.Chemical)
+				{
+					so.health += chemical;
+				}
+				if(proficiency == RepairStrength.Engineering)
+				{
+					so.health += engineering;
+				}
+				if (proficiency == RepairStrength.Farming)
+				{
+					so.health += chemical;
+				}
+			}
+
+			so.health += charm * Random.Range(0f, .25f);
+			so.health += chemical * Random.Range(0f, .25f);			
+			so.health += engineering * Random.Range(0f, .25f);
+			so.health += chemical * Random.Range(0f, .25f);
+			so.health = Mathf.Clamp(so.health, 0, 100);
+		}
+
+	}
 
 	void GenerateStats()
 	{
-		charm += Random.Range(0f, 5f);
-		farming += Random.Range(0f, 5f);
-		engineering += Random.Range(0f, 5f);
-		chemical += Random.Range(0f, 5f);
+		charm -= Random.Range(0f, 5f);
+		farming -= Random.Range(0f, 5f);
+		engineering -= Random.Range(0f, 5f);
+		chemical -= Random.Range(0f, 5f);
+		Image proficiencyImage = repairButton.gameObject.transform.Find("Proficiency").GetComponent<Image>();
 
-		
 		if (charm < farming)
 		{
 			proficiency = RepairStrength.Farming;
+			proficiencyImage.sprite = GameController.instance.foodIcon;
 			charm *= Random.Range(.4f, .75f);
 			engineering *= Random.Range(.4f, .75f);
 			chemical *= Random.Range(.4f, .75f);
@@ -41,6 +72,7 @@ public class Person : MonoBehaviour
 		else if (charm < engineering)
 		{
 			proficiency = RepairStrength.Engineering;
+			proficiencyImage.sprite = GameController.instance.engeneeringIcon;
 			charm *= Random.Range(.4f, .75f);
 			farming *= Random.Range(.4f, .75f);
 			chemical *= Random.Range(.4f, .75f);
@@ -48,6 +80,7 @@ public class Person : MonoBehaviour
 		else if (charm < chemical)
 		{
 			proficiency = RepairStrength.Chemical;
+			proficiencyImage.sprite = GameController.instance.waterIcon;
 			charm *= Random.Range(.4f, .75f);
 			farming *= Random.Range(.4f, .75f);
 			engineering *= Random.Range(.4f, .75f);
@@ -55,6 +88,7 @@ public class Person : MonoBehaviour
 		else
 		{
 			proficiency = RepairStrength.Charm;
+			proficiencyImage.sprite = GameController.instance.scienceIcon;
 			farming *= Random.Range(.4f, .75f);
 			engineering *= Random.Range(.4f, .75f);
 			chemical *= Random.Range(.4f, .75f);
