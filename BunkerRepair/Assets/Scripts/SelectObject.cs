@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SelectObject : MonoBehaviour
@@ -9,11 +10,12 @@ public class SelectObject : MonoBehaviour
 	public Material outlineMaterial;
 	public static SelectObject instance;
 
-	public GameObject selectableObjectPanel;
+	public GameObject selectableObjectPanel,repairPanel;
 	public Text selectableObjectTitle, selectableObjectHealth, selectableObjectOutput;
     // Start is called before the first frame update
     void Start()
     {
+		instance = this;
 		InvokeRepeating("UpdateSelectedPanel", .5f, .5f);
     }
 
@@ -23,65 +25,72 @@ public class SelectObject : MonoBehaviour
         if(Input.GetButtonUp("Fire1"))
 		{
 			RaycastHit hit;
+			
 			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (currentSelection != null)
+
+			
+
+			List<RaycastResult> uiOut = new List<RaycastResult>();
+			PointerEventData newData = new PointerEventData(EventSystem.current);
+			newData.position = Input.mousePosition;
+			EventSystem.current.RaycastAll(newData, uiOut);
+			if (uiOut.Count <= 0)
 			{
-				foreach (MeshRenderer mr in currentSelection.GetComponentsInChildren<MeshRenderer>())
+				if (currentSelection != null)
 				{
-					for (int i = 0; i < mr.materials.Length; i++)
+					foreach (MeshRenderer mr in currentSelection.GetComponentsInChildren<MeshRenderer>())
 					{
-						List<Material> matArray = new List<Material>(mr.materials);
-						int index = -1;
-						for (int j = 0; j < matArray.Count; j++)
+						for (int i = 0; i < mr.materials.Length; i++)
 						{
-							if (matArray[j].name == outlineMaterial.name + " (Instance)")
+							List<Material> matArray = new List<Material>(mr.materials);
+							int index = -1;
+							for (int j = 0; j < matArray.Count; j++)
 							{
-								index = j;
+								if (matArray[j].name == outlineMaterial.name + " (Instance)")
+								{
+									index = j;
+								}
 							}
-						}
-						if (index != -1)
-						{
-							matArray.RemoveAt(index);
-							mr.materials = matArray.ToArray();
+							if (index != -1)
+							{
+								matArray.RemoveAt(index);
+								mr.materials = matArray.ToArray();
+							}
 						}
 					}
 				}
-			}
-			if (Physics.Raycast(mouseRay, out hit, Mathf.Infinity))
-			{
-
-				if (hit.collider.tag == "Selectable")
+				if (Physics.Raycast(mouseRay, out hit, Mathf.Infinity))
 				{
-					currentSelection = hit.collider.gameObject;
-					UpdateSelectedPanel();
-					foreach (MeshRenderer mr in currentSelection.GetComponentsInChildren<MeshRenderer>())
+
+					if (hit.collider.tag == "Selectable")
 					{
-						bool setOutline = false;
-						for (int i = 0; i < mr.materials.Length; i++)
+						currentSelection = hit.collider.gameObject;
+						UpdateSelectedPanel();
+						foreach (MeshRenderer mr in currentSelection.GetComponentsInChildren<MeshRenderer>())
 						{
-							if (mr.materials[i] == null)
+							bool setOutline = false;
+							for (int i = 0; i < mr.materials.Length; i++)
 							{
-								mr.materials[i] = outlineMaterial;
-								setOutline = true;
+								if (mr.materials[i] == null)
+								{
+									mr.materials[i] = outlineMaterial;
+									setOutline = true;
+								}
 							}
-						}
-						if (setOutline == false)
-						{
-							List<Material> matArray = new List<Material>(mr.materials);
-							matArray.Add(outlineMaterial);
-							mr.materials = matArray.ToArray();
+							if (setOutline == false)
+							{
+								List<Material> matArray = new List<Material>(mr.materials);
+								matArray.Add(outlineMaterial);
+								mr.materials = matArray.ToArray();
+							}
 						}
 					}
 				}
 				else
 				{
-
+					currentSelection = null;
+					UpdateSelectedPanel();
 				}
-			}
-			else
-			{
-				currentSelection = null;
-				UpdateSelectedPanel();
 			}
 		}
     }
@@ -91,9 +100,15 @@ public class SelectObject : MonoBehaviour
 		if(currentSelection != null)
 		{
 			SelectableObject so = currentSelection.GetComponent<SelectableObject>();
-			if(so)
+			if (so)
 			{
-				selectableObjectPanel.SetActive(true);
+				if (repairPanel.activeSelf)
+				{
+					selectableObjectPanel.SetActive(false);
+				}
+				else { 
+					selectableObjectPanel.SetActive(true);
+				}
 				selectableObjectTitle.text = so.title;
 				selectableObjectHealth.text = "Health: " + (so.health/100).ToString("00.00%");
 				selectableObjectOutput.text = "Output: " + (so.output/100).ToString("00.00%");
