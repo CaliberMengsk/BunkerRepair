@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
+	public int peopleCount = 6;
 	public GameObject repairPanel, repairButtonPrefab, personPrefab;
+	public GameObject gameOverScreen, gameWinScreen;
 	public List<Button> repairButtons;
 	public List<Person> people = new List<Person>();
 	public Sprite foodIcon, waterIcon, scienceIcon, engeneeringIcon;
+
+	public bool gameOver = false;
+	public bool gameWin = false;
 
 	public static GameController instance;
     // Start is called before the first frame update
     void Start()
     {
 		instance = this;
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < peopleCount; i++)
 		{
 			GeneratePerson();
 		}
@@ -25,7 +31,20 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(gameOver)
+		{
+			gameOverScreen.SetActive(true);
+			Time.timeScale = 0;
+		}
+		else if (gameWin)
+		{
+			gameWinScreen.SetActive(true);
+			Time.timeScale = 0;
+		}
+		else
+		{
+			Time.timeScale = 1;
+		}
     }
 
 	public void GeneratePerson()
@@ -56,6 +75,21 @@ public class GameController : MonoBehaviour
 		personToDo.repairingObject = SelectObject.instance.currentSelection;
 		EventSystem.current.SetSelectedGameObject(null);
 		SelectObject.instance.UpdatePersonButtons();
+	}
+
+	public void RestartLevel()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void MainMenu()
+	{
+		SceneManager.LoadScene(0);
+	}
+
+	public void ExitGame()
+	{
+		Application.Quit();
 	}
 }
 public enum RepairType

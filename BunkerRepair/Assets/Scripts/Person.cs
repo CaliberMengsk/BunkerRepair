@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Person : MonoBehaviour
 {
 	public int health = 100, stamina = 100;
-	public float charm = 5, farming = 5, engineering = 5, chemical = 5;
+	public float charm = 5, farming = 5, engineering = 5, chemical = 5, skillModifier = .8f;
 	public GameObject repairingObject;
 	public Button repairButton;
 	public RepairStrength proficiency;
@@ -93,6 +94,14 @@ public class Person : MonoBehaviour
 			engineering *= Random.Range(.4f, .75f);
 			chemical *= Random.Range(.4f, .75f);
 		}
+
+		charm *= skillModifier;
+		farming *= skillModifier;
+		engineering *= skillModifier;
+		chemical *= skillModifier;
+
+		string[] lines = File.ReadAllLines(Application.dataPath + "/StreamingAssets/names.txt");
+		repairButton.GetComponentInChildren<Text>().text = lines[Random.Range((int)0, (int)lines.Length)];
 	}
 }
 

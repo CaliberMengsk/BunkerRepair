@@ -10,6 +10,7 @@ public class SelectableObject : MonoBehaviour
 	public AnimationCurve outputCurve;
 	public static SelectableObject instance;
 	public RepairStrength expertieseNeeded;
+	public bool isDoor = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +20,28 @@ public class SelectableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+		if(health <= 0 && !isDoor)
+		{
+			GameController.instance.gameOver = true;
+		}
+		if(health >= 100 && isDoor)
+		{
+			GameController.instance.gameWin = true;
+		}
 		health -= decayRate * Time.deltaTime;
-		output = outputCurve.Evaluate(health/100)*100;
-    }
+		output = outputCurve.Evaluate(health / 100) * 100;
+	}
 	private void LateUpdate()
 	{
+		if (health <= 0 && !isDoor)
+		{
+			GameController.instance.gameOver = true;
+		}
+		if (health >= 100 && isDoor)
+		{
+			GameController.instance.gameWin = true;
+		}
 		health = Mathf.Clamp(health, 0, 100);
 	}
 }
