@@ -2,12 +2,12 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-BunkerRepair/[Ll]ibrary/
-BunkerRepair/[Tt]emp/
-BunkerRepair/[Oo]bj/
-BunkerRepair/[Bb]uild/
-BunkerRepair/[Bb]uilds/
-BunkerRepair/[Ll]ogs/
+BunkerRepair/[Ll]ibrary/*
+BunkerRepair/[Tt]emp/*
+BunkerRepair/[Oo]bj/*
+BunkerRepair/[Bb]uild/*
+BunkerRepair/[Bb]uilds/*
+BunkerRepair/[Ll]ogs/*
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -114,3 +114,16 @@ BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe1.log
 BunkerRepair/Library/ShaderCache/EditorEncounteredVariants
 BunkerRepair/Library/CurrentLayout.dwlt
 BunkerRepair/Library/assetDatabase3
+BunkerRepair/Library/assetDatabase3
+BunkerRepair/Library/CurrentLayout.dwlt
+BunkerRepair/Library/metadata/14/145a4aa216d987643880bdf9df0e3232
+BunkerRepair/Library/metadata/14/145a4aa216d987643880bdf9df0e3232.info
+BunkerRepair/Library/metadata/3a/3a959993bdb2e3c41865522b87f2969c
+BunkerRepair/Library/metadata/3a/3a959993bdb2e3c41865522b87f2969c.info
+BunkerRepair/Library/metadata/db/dba9acefb14bb2544a0ec0dfbc527a20
+BunkerRepair/Library/metadata/db/dba9acefb14bb2544a0ec0dfbc527a20.info
+BunkerRepair/Library/ShaderCache/EditorEncounteredVariants
+BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe1.log
+BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe2.log
+BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe3.log
+BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe4.log
