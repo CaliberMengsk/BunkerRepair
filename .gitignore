@@ -108,3 +108,9 @@ BunkerRepair/Library/ShaderCache/EditorEncounteredVariants
 BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe1.log
 BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe2.log
 BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe3.log
+*.log
+*.dwlt
+BunkerRepair/Library/shadercompiler-UnityShaderCompiler.exe1.log
+BunkerRepair/Library/ShaderCache/EditorEncounteredVariants
+BunkerRepair/Library/CurrentLayout.dwlt
+BunkerRepair/Library/assetDatabase3
